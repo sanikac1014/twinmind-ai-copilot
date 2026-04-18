@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build / cache
+frontend/dist/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# Python venv
+backend/.venv/
+.venv/
+venv/
+
+# Env & secrets (keep .env.example tracked)
+.env
+backend/.env
+frontend/.env
+*.pem
+
+# IDE / OS
+.cursor/
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
