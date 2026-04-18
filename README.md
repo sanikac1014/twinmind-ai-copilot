@@ -17,11 +17,11 @@ Real-time AI meeting copilot with:
 - `App.jsx` orchestrates recording, chunk upload, suggestion refresh, chat calls, and export.
 
 ### Backend (`backend/`)
-- FastAPI routes:
-  - `POST /transcribe`: audio chunk -> transcript line
-  - `POST /suggestions`: context engine + ranked topic suggestions
-  - `POST /chat`: deep structured assistant answer
-  - `GET /export`: transcript + suggestions + chat + summary
+- FastAPI routes (all under **`/api`** in code and on Vercel; local Vite proxies `/api` → backend):
+  - `POST /api/transcribe`: audio chunk -> transcript line
+  - `POST /api/suggestions`: context engine + ranked topic suggestions
+  - `POST /api/chat`: deep structured assistant answer
+  - `GET /api/export`: transcript + suggestions + chat + summary
 - Services:
   - `transcription.py`: Groq Whisper Large V3
   - `context_engine.py`: sliding recent window + rolling summary + type/stage detection
@@ -72,13 +72,15 @@ This repo includes `vercel.json` + `api/index.py` for deployment routing.
 
 ### Deploy
 1. Push this repository to GitHub.
-2. Import to Vercel.
+2. Import to Vercel (leave **Root Directory** empty so `vercel.json` at repo root is used).
 3. Set env var: `GROQ_API_KEY`.
-4. Deploy.
+4. Redeploy after config changes.
 
 After deploy:
-- frontend serves at the project URL
-- backend serves through `/api/*` paths
+- Static UI is served from `/` (SPA fallback is **`/index.html`**, not `/frontend/index.html`).
+- FastAPI is mounted at **`/api`** (e.g. `POST /api/suggestions`), matching the frontend default `VITE_API_URL=/api`.
+
+If the preview is a **blank white page**, check **Build Logs** for `vite build` success, then **Runtime / Network** in the browser: `index.html` and `/assets/*.js` should return **200** (a wrong SPA fallback often yields empty or 404 HTML).
 
 ## Notes
 
